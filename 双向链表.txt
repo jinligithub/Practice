@@ -1,0 +1,59 @@
+package www.bit.java.Link;
+
+interface ILink{//定义接口
+    /**
+     *  插入节点，
+     * @param obj Object可以接收一切对象
+     */
+    void add(Object obj);
+    /**
+     *  //删除节点，用布尔值返回是否删除成功，
+     * @param obj 要删除的节点
+     * @return  1成功，0失败、
+     */
+    boolean remove(Object obj);
+
+    /**
+     * 修改指定位置的内容
+     * @param index 指定位置
+     * @param newData 新节点的内容
+     * @return 返回之前节点的内容
+     */
+    Object set(int index,Object newData);
+
+    /**
+     * 获取指定节点的内容
+     * @param index  指定节点
+     * @return 节点内容
+     */
+    Object get(int index);
+
+    /**
+     * 判断链表中是否穿在该节点
+     * @param data 节点内容
+     * @return  返回-表示不存在该节点
+     */
+    int contains(Object data);
+
+    /**
+     * 求链表的大小
+     * @return 返回链表的长度
+     */
+    int size();
+
+    /**
+     * 清空链表
+     */
+    void clear();
+
+    /**
+     * 将链表转化为数组
+     * @return 返回节点内容数组
+     */
+    Object[] toArray();
+
+    /**
+     * 打印链表
+     */
+    void print();
+}
