@@ -1,0 +1,45 @@
+        5.编程:
+        1).定义一个MulException类继承Exception类，要求两数相乘等于100报错，
+        在主类中定义一个方法，在方法中抛出此异常，在主方法观察结果。
+        2).定义一个DivException类继承RuntimeException类，要求两数相除等于2报错，
+        在主类中定义一个方法，在方法中抛出此异常，在主方法观察结果。
+
+class MulException extends Exception{
+    public MulException(String str){
+        super(str);
+    }
+}
+class DivException extends RuntimeException{
+    public DivException (String str){
+        super(str);
+    }
+}
+
+public class HomeWork5{
+    public static void main(String[] agrs){
+        try {
+            test();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        test2();
+
+    }
+    public static void test()throws Exception{
+        int i=10;
+        int j=10;
+        int result=i*j;
+        if(result==100){
+            throw new MulException("两束相乘等于100");
+        }
+    }
+    public static void test2(){
+        int n=4;
+        int m=2;
+        int result=n/m;
+        if(result==2){
+            throw new DivException("两数相除不能等于2");
+        }
+    }
+
+}
