@@ -1,0 +1,9 @@
+        3.说出下列程序的执行结果，并说明原因:
+        Integer a = 55;
+        Integer b = 55;
+        System.out.println(a==b);//true  在常量区
+        System.out.println(a==new Integer(55));//false  因为新开辟了空间
+        System.out.println(a.equals(new Integer(55)));//true 因为比较的是类容
+       Integer c = 129;
+       Integer d = 129;
+       System.out.println(c==d);//false  因为超过了127，所以会新开启空间

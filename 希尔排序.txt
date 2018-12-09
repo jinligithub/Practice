@@ -1,0 +1,31 @@
+public class Sort {
+    public static void main(String[] agrs){
+        int[] arr=new int[]{25,64,10,36,0,20};
+        shell(arr);
+        print(arr);
+    }
+    public static void shell(int a[]){
+        int i=0;
+        int gap=a.length/2;//让最开始的gap等于数组的一半
+        while(gap>=1){//当gap=1时停止循环
+            for(i=0;i<a.length-gap;i++){
+                int end=i;
+                int temp=a[end+gap];//提前保存a[end+gap]的值
+                while(end>=0&&a[end]>temp){//当end>=0并且a[end]大于temp时减缓两个数 的位置
+                    a[end+gap]=a[end];
+                    end-=gap;//继续和之前的数比较
+                }
+                a[end+gap]=temp;//因为之前已经把end减到前一个位置了（end-=gap）,所以给end+gap
+            }
+            gap>>=1;//每一趟排序完成后，gap都缩小为原来的一半 
+
+        }
+    }
+
+    public static void print(int a[]){
+        int i=0;
+        for(i=0;i<a.length;i++){
+            System.out.print(a[i]+",");
+        }
+    }
+}

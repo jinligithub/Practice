@@ -1,0 +1,245 @@
+package www.bit.java.Link;
+
+interface ILink{//定义接口
+    /**
+     *  插入节点，
+     * @param obj Object可以接收一切对象
+     */
+    void add(Object obj);
+    /**
+     *  //删除节点，用布尔值返回是否删除成功，
+     * @param obj 要删除的节点
+     * @return  1成功，0失败、
+     */
+    boolean remove(Object obj);
+
+    /**
+     * 修改指定位置的内容
+     * @param index 指定位置
+     * @param newData 新节点的内容
+     * @return 返回之前节点的内容
+     */
+    Object set(int index,Object newData);
+
+    /**
+     * 获取指定节点的内容
+     * @param index  指定节点
+     * @return 节点内容
+     */
+    Object get(int index);
+
+    /**
+     * 判断链表中是否穿在该节点
+     * @param data 节点内容
+     * @return  返回-表示不存在该节点
+     */
+    int contains(Object data);
+
+    /**
+     * 求链表的大小
+     * @return 返回链表的长度
+     */
+    int size();
+
+    /**
+     * 清空链表
+     */
+    void clear();
+
+    /**
+     * 将链表转化为数组
+     * @return 返回节点内容数组
+     */
+    Object[] toArray();
+
+    /**
+     * 打印链表
+     */
+    void print();
+}
+
+class LinkImpl implements ILink{//定义一个类 ，继承接口，并实现它
+    private Node head;
+    private Node last;
+    private int size;
+    private class Node{//定义节点对外部不可见
+        private Node prev;
+        private Node next;
+        private Object data;
+        public Node(Node prev,Node next,Object data){
+            this.prev=prev;
+            this.next=next;
+            this.data=data;
+        }
+    }
+    @Override
+    public void add(Object obj){
+        Node temp=this.last;//让temp指向最后一个节点
+        //让新节点的prev指向最后一个节点，让next指针为null，把新增的节点内容obj给data
+        Node newNode=new Node(temp,null,obj);
+        this.last=newNode;//让最后一个指针指向newNode
+
+        if(this.head==null){//判断头结点是否为空
+            this.head=newNode;//为空，头结点节等于新节点
+        }else{//不为空，temp的下一个节点等于新节点
+            temp.next=newNode;
+        }
+        this.size++;//链表的大小加一
+    }
+
+    @Override
+    public boolean remove(Object obj) {
+        if(obj==null){//如果输出对象为空
+            for(Node temp=head;temp!=null;temp=temp.next){
+                if(temp.data==null){//找到内容为空的对象
+                    unLink(temp);//删除对象
+                    return true;
+                }
+            }
+        }else{//删除内容不为空
+            for(Node temp=head;temp!=null;temp=temp.next){
+                if(obj.equals(temp.data)){//判断删除内容个和链表内容是否一致
+                    unLink(temp);//删除对象
+                    return true;//删除成功
+                }
+            }
+        }
+        return false;//删除失败
+    }
+
+    @Override
+    public Object set(int index, Object newData) {
+        if(!isLinkIndex(index)){//判断节点是否存在，不存在返回null
+            return null;
+        }
+        Object element=node(index).data;//获取该节点的内容
+        node(index).data=newData;//更改 节点的内容
+        return element;//返回更改前的节点
+    }
+
+    @Override
+    public Object get(int index) {
+        if(!isLinkIndex(index)){//判断节点是否存在，不存在返回null
+            return null;
+        }
+        return node(index).data;//节点存在返回他的内容
+    }
+
+    @Override
+    public int contains(Object data) {
+        int i=0;
+        if(data==null){//当data等于空时，直接遍历一遍看看里面有没有data==null
+            for(Node temp=head;temp!=null;temp=temp.next){
+                if(temp.data==null){//找到temp.data等于null是返回i
+                    return i;
+                }
+                i++;//继续向后寻找
+            }
+        }else{//data不等于空时
+            for(Node temp=head;temp!=null;temp=temp.next){
+                if(data.equals(temp.data)){//用equals方法判断内容是否相等
+                    return i;//相等返回i
+                }
+                i++;
+            }
+        }
+        return -1;//不存在返回-1
+    }
+
+    @Override
+    public int size() {
+        return this.size;//this表示调用当前对象
+    }
+
+    @Override
+    public void clear() {
+        for(Node temp=head;temp!=null;){
+            Node flag=temp.next;//提前保存下一个节点
+            temp.prev=temp=temp.next=null;//让节点的三个部分都为null
+            temp=flag;//让temp等于下一个节点
+            this.size--;//清空一个节点链表的大小减一
+
+        }
+    }
+
+    @Override
+    public Object[] toArray() {
+        Object[] result=new Object[size];//定义一个对象数组
+        int i=0;
+        for(Node temp=head;temp!=null;temp=temp.next){
+            //定义一个temp等于头节点，区便利链表
+            result[i++]=temp.data;//把temp的值给对象数组
+        }
+        return result;//返回对象数组
+    }
+
+    @Override
+    public void print() {
+        Object[] data =this.toArray();
+        for(Object temp:data){//foreach循环输出内容
+            System.out.println(temp);
+        }
+    }
+    private boolean isLinkIndex(int index){
+        //判断这个节点是否在这个链表里
+        return index>=0&&index<size;
+    }
+    private Node node(int index){//在链表中找这个节点，并返回该节点
+        if(index<(size>>1)){//判断这个节点是否在前半部分
+            Node temp=head;
+            for(int i=0;i<index;i++){
+                temp=temp.next;//向后循环直到等于index
+            }
+            return temp;
+        }
+        Node temp=this.last;//节点在后半部分
+        for(int i=size-1;i>index;i--){//节点从最后一个向前数，到index时停止
+            temp=temp.prev;//向前循环直到等于index
+        }
+        return temp;
+    }
+private void unLink(Node node){//删除节点
+        Node prev =node.prev;
+        Node next=node.next;
+        if(prev==null){//删除头结点
+            this.head=next;//让head等于next
+        }else{
+            prev.next=next;//让前一个指针的next指向下一个节点
+            node.prev=null;//让前节点的prev=null
+        }
+        if(next==null){//删除尾节点
+            this.last=prev;//让他的尾节点等于他前一个节点
+        }else{
+            next.prev=prev;//next的前指针prev等于前一个节点
+            node.next=null;//让node 的下一个节点为空
+        }
+        node.data=null;//把节点的内容置空
+        this.size--;//链表的大小减一
+}
+}
+
+
+public class Link {
+    public static void main(String[] agrs){
+
+        ILink link = new LinkImpl();
+        link.add("火车头");
+        link.add("车厢1");
+        link.add("车厢2");
+        link.add(null);
+        link.add("车厢尾");
+        link.print();
+        System.out.println();
+        link.remove("火车头");
+        link.print();
+        System.out.println();
+
+        link.remove("车厢尾");
+        link.print();
+        System.out.println();
+
+        link.remove(null);
+        link.remove("哈哈哈");
+        link.print();
+    }
+}
