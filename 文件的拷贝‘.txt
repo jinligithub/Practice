@@ -1,0 +1,26 @@
+public class HomeWork6 {
+    public static void main(String[] agrs)throws Exception {
+        //.源文件路径
+       String sourceFilePath="C:\\Users\\Z\\Desktop\\123.jpg";
+       //2.目标文件路径
+       String destFilePath="C:\\Users\\Z\\Desktop\\1234.jpg";
+       copyFile(sourceFilePath,destFilePath);
+    }
+    public static  void  copyFile(String sourceFilePath,String destFilePath)throws Exception{
+        //1.获取源文件与目标文件的file对象
+        File sourceFile= new File(sourceFilePath);
+        File destFile = new File(destFilePath);
+        //2.取得输入输出流
+        InputStream in = new FileInputStream(sourceFile);
+        OutputStream out= new FileOutputStream(destFile);
+        //3.数据的输入输出
+        int  len =0;
+        byte[] data=new  byte [1024];
+        long start =System.currentTimeMillis();
+        while((len-in.read(data))!=-1){
+            out.write(data,0,len);
+        }
+        long end=System.currentTimeMillis();
+        System.out.println("时间为"+(end-start)+"毫秒");
+    }
+}
