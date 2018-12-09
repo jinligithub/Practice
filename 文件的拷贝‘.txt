@@ -6,6 +6,7 @@ public class HomeWork6 {
        String destFilePath="C:\\Users\\Z\\Desktop\\1234.jpg";
        copyFile(sourceFilePath,destFilePath);
     }
+
     public static  void  copyFile(String sourceFilePath,String destFilePath)throws Exception{
         //1.获取源文件与目标文件的file对象
         File sourceFile= new File(sourceFilePath);
