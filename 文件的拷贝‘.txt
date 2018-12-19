@@ -24,3 +24,29 @@ public class HomeWork6 {
         System.out.println("时间为"+(end-start)+"毫秒");
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////
+public class HomeWork6 {
+    public static void main(String[] agrs){
+        File file = new File("C:"+File.separator+"Users"+File.separator+"Z"+File.separator+"Desktop");
+        new  Thread (()->{
+            long start= System.currentTimeMillis();
+            listAllFiles(file);
+            long end= System.currentTimeMillis();
+            System.out.println("时间为："+(end-start)+"毫秒");
+        }).start();
+        System.out.println("mian结束");
+    }
+    public static  void  listAllFiles(File file){
+        if(file.isFile()){
+            System.out.println(file);
+        }else{
+            if(file.exists()&&file.isDirectory()){
+                File[] files  =file.listFiles();
+                for(File file1:files  ){
+                    listAllFiles(file1);
+                }
+            }
+        }
+    }
+}
